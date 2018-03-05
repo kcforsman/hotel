@@ -21,8 +21,14 @@ describe 'Reservation' do
     end
   end
   describe 'calculate_nights' do
+    before do
+      @reservation = Hotel::Reservation.new(1, 4, "Bob", Date.new(2018,3,26), Date.new(2018,3,18))
+    end
     it 'returns the number of nights' do
+      nights = @reservation.calculate_nights
 
+      nights.must_be_kind_of Integer
+      nights.must_equal 8
     end
   end
 end

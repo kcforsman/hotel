@@ -10,5 +10,9 @@ module Hotel
       @start_date = start_date
       @end_date = end_date
     end
+
+    def calculate_nights
+      (start_date - end_date).to_i
+    end
   end
 end
