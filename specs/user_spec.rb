@@ -22,10 +22,10 @@ describe 'User' do
       proc { @admin.reserve_room("Jade Poe", Date.new(2018,3,5), nil)}.must_raise StandardError
     end
     it 'throws ArgumentError if end_date occurs before start_date' do
-      proc { @admin.reserve_room("Jade Poe", Date.new(2018, 3, 10), Date.new(2018, 3, 5))}.must_raise ArgumentError
+      proc { @admin.reserve_room("Jade Poe", Date.new(2018, 3, 10), Date.new(2018, 3, 5))}.must_raise StandardError
     end
     it 'throws ArgumentError if start_date is same as end_date' do
-      proc { @admin.reserve_room("Jade Poe", Date.new(2018, 3, 10), Date.new(2018, 3, 10))}.must_raise ArgumentError
+      proc { @admin.reserve_room("Jade Poe", Date.new(2018, 3, 10), Date.new(2018, 3, 10))}.must_raise StandardError
     end
     it 'returns an instance of a reservation' do
     end

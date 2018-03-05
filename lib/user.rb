@@ -14,9 +14,9 @@ module Hotel
       if start_date.class != Date || end_date.class != Date
         raise StandardError.new("not a date")
       elsif end_date < start_date
-        raise ArgumentError.new("End date (#{end_date}) comes before start date (#{start_date})")
+        raise StandardError.new("End date (#{end_date}) comes before start date (#{start_date})")
       elsif end_date == start_date
-        raise ArgumentError.new("End date (#{end_date}) is same as start date (#{start_date})")
+        raise StandardError.new("End date (#{end_date}) is same as start date (#{start_date})")
       end
     end
   end
