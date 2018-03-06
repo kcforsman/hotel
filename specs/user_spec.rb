@@ -11,6 +11,8 @@ describe 'User' do
     end
     it 'has a list of rooms' do
       @admin.must_respond_to :rooms
+      @admin.rooms[0].must_be_instance_of Hotel::Room
+      @admin.rooms.last.must_be_instance_of Hotel::Room
     end
   end
   describe 'reserve_room' do
@@ -29,6 +31,8 @@ describe 'User' do
       proc { @admin.reserve_room(2, "Jade Poe", Date.new(2018, 3, 10), Date.new(2018, 3, 10))}.must_raise StandardError
     end
     it 'throws StandardError if room has any other reservation that overlaps with new reservation' do
+      @admin.reserve_room(2, "Jace Poe", Date.new(2018, 3, 10), Date.new(2018, 3, 12))
+      proc { @admin.reserve_room(2, "Jade Poe", Date.new(2018, 3, 10), Date.new(2018, 3, 12))}.must_raise StandardError
     end
     it 'returns an instance of a reservation' do
       @new_reservation.must_be_instance_of Hotel::Reservation
