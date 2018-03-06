@@ -3,7 +3,7 @@ require 'date'
 
 describe 'Reservation' do
   before do
-    @reservation = Hotel::Reservation.new(1, 4, "Bob", Date.new(2018,3,26), Date.new(2018,3,18))
+    @reservation = Hotel::Reservation.new(1, 4, "Bob", Date.new(2018,3,18), Date.new(2018,3,26))
   end
   describe 'initialization' do
     it 'can be initialized' do
@@ -22,13 +22,22 @@ describe 'Reservation' do
   end
   describe 'calculate_nights' do
     before do
-      @reservation = Hotel::Reservation.new(1, 4, "Bob", Date.new(2018,3,26), Date.new(2018,3,18))
+      @reservation = Hotel::Reservation.new(1, 4, "Bob", Date.new(2018,3,18), Date.new(2018,3,26))
     end
     it 'returns the number of nights' do
       nights = @reservation.calculate_nights
 
       nights.must_be_kind_of Integer
       nights.must_equal 8
+    end
+  end
+  describe 'find_all_dates' do
+    it 'returns an array of all dates in reservation' do
+      reservation = Hotel::Reservation.new(1, 4, "Kaeli", Date.new(2018,3,20), Date.new(2018,3,22))
+      all_dates = reservation.find_all_dates
+
+      all_dates.must_be_kind_of Array
+      all_dates.must_equal [Date.new(2018,3,20), Date.new(2018,3,21), Date.new(2018,3,22)]
     end
   end
 end

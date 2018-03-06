@@ -12,7 +12,18 @@ module Hotel
     end
 
     def calculate_nights
-      (start_date - end_date).to_i
+      (end_date - start_date).to_i
     end
+
+    def find_all_dates
+      date_range = []
+      date = @start_date
+      while date <= @end_date
+        date_range << date
+        date += 1
+      end
+      date_range
+    end
+
   end
 end
