@@ -17,7 +17,6 @@ describe 'User' do
     before do
       @admin = Hotel::User.new
       @new_reservation = @admin.reserve_room(5, "Jade Poe", Date.new(2018, 3, 20), Date.new(2018, 3, 25))
-
     end
     it 'throws StandardError for invalidate dates' do
       proc { @admin.reserve_room(3, "Jade Poe", nil, Date.new(2018,3,5))}.must_raise StandardError
@@ -36,8 +35,18 @@ describe 'User' do
 
     end
   end
-  xdescribe 'find_reservations_for_given_date' do
+  describe 'find_reservations_for_given_date' do
+    before do
+      @admin = Hotel::User.new
+      @new_reservation = @admin.reserve_room(5, "Jade Poe", Date.new(2018, 3, 20), Date.new(2018, 3, 25))
+      @new_reservation_2 = @admin.reserve_room(8, "Kal Smith", Date.new(2018, 3, 20), Date.new(2018, 3, 25))
+      @date = Date.new(2018, 3, 23)
+    end
     it 'returns array of reservations for a given date' do
+      reservations_of_day = @admin.find_reservations_for_given_date(@date)
+
+      reservations_of_day.must_be_kind_of Array
+      reservations_of_day.must_equal [@new_reservation, @new_reservation_2]
     end
   end
   xdescribe 'calculate_reservation_cost' do

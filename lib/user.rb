@@ -16,6 +16,7 @@ module Hotel
       valid_dates(start_date, end_date)
       id = @reservations.length
       new_reservation = Reservation.new(id, room_num, guest, start_date, end_date)
+      add_to_calendar(new_reservation)
       @reservations << new_reservation
       new_reservation
     end
@@ -28,6 +29,17 @@ module Hotel
       elsif end_date == start_date
         raise StandardError.new("End date (#{end_date}) is same as start date (#{start_date})")
       end
+    end
+
+    def add_to_calendar(reservation)
+      date_range = reservation.find_all_dates
+      date_range.each do |date|
+         @calendar[date] ? @calendar[date].push(reservation) : @calendar[date] = [reservation]
+       end
+    end
+
+    def find_reservations_for_given_date(date)
+      @calendar[date]
     end
 
   end
