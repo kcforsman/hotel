@@ -47,7 +47,7 @@ module Hotel
       reservation.calculate_reservation_cost
     end
     def find_reservation(reservation_id)
-      found_reservation = @reservations.find { |reservation| reservation.id == reservation_id }
+      @reservations.find { |reservation| reservation.id == reservation_id }
     end
   end
 end

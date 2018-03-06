@@ -5,6 +5,8 @@ describe 'Room class' do
   describe 'initialize' do
     it 'can be initialized' do
       room_2 = Hotel::Room.new(2)
+
+      room_2.must_be_instance_of Hotel::Room
     end
 
     it 'has empty calendar and room number' do
