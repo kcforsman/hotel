@@ -40,4 +40,12 @@ describe 'Reservation' do
       all_dates.must_equal [Date.new(2018,3,20), Date.new(2018,3,21), Date.new(2018,3,22)]
     end
   end
+
+  describe 'calculate_reservation_cost' do
+    it 'returns the cost of the reservation' do
+      reservation = Hotel::Reservation.new(1, 4, "Bob", Date.new(2018,3,20), Date.new(2018,3,25))
+
+      reservation.calculate_reservation_cost.must_equal 1000
+    end
+  end
 end

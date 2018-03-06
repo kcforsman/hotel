@@ -25,5 +25,8 @@ module Hotel
       date_range
     end
 
+    def calculate_reservation_cost
+      calculate_nights * COST_PER_NIGHT
+    end
   end
 end

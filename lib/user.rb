@@ -14,7 +14,7 @@ module Hotel
     end
     def reserve_room(room_num, guest, start_date, end_date)
       valid_dates(start_date, end_date)
-      id = @reservations.length
+      id = @reservations.length + 1
       new_reservation = Reservation.new(id, room_num, guest, start_date, end_date)
       add_to_calendar(new_reservation)
       @reservations << new_reservation
@@ -42,5 +42,12 @@ module Hotel
       @calendar[date]
     end
 
+    def find_reservation_cost(reservation_id)
+      reservation = find_reservation(reservation_id)
+      reservation.calculate_reservation_cost
+    end
+    def find_reservation(reservation_id)
+      found_reservation = @reservations.find { |reservation| reservation.id == reservation_id }
+    end
   end
 end

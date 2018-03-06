@@ -31,9 +31,6 @@ describe 'User' do
     it 'returns an instance of a reservation' do
       @new_reservation.must_be_instance_of Hotel::Reservation
     end
-    xit 'adds new reservation to array of reservations' do
-
-    end
   end
   describe 'find_reservations_for_given_date' do
     before do
@@ -49,9 +46,12 @@ describe 'User' do
       reservations_of_day.must_equal [@new_reservation, @new_reservation_2]
     end
   end
-  xdescribe 'calculate_reservation_cost' do
-    it 'returns cost for reservation' do
+  describe 'find_reservation_cost' do
+    it 'returns cost for reservation with reservation id' do
+      admin = Hotel::User.new
+      new_reservation = admin.reserve_room(5, "Kaeli Poe", Date.new(2018, 3, 20), Date.new(2018, 3, 25))
 
+      admin.find_reservation_cost(1).must_equal 1000
     end
   end
 
