@@ -12,6 +12,16 @@ module Hotel
       @calendar = {}
       TOTAL_ROOMS.times { | room_num | @rooms << Room.new(room_num + 1)}
     end
+    def find_available_rooms(start_date, end_date)
+      date_range = (start_date...end_date)
+      available_rooms = []
+      @rooms.each do |room|
+        next if room.calendar.any?(date_range)
+        available_rooms << room
+      end
+      available_rooms
+    end
+
     def reserve_room(room_num, guest, start_date, end_date)
       valid_dates(start_date, end_date)
       date_range = (start_date...end_date)

@@ -10,7 +10,6 @@ module Hotel
     end
     def add_to_calendar(date_range)
       dates = date_range.to_a
-
       dates.each { | date | @calendar << date }
     end
   end

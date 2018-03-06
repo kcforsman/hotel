@@ -15,6 +15,38 @@ describe 'User' do
       @admin.rooms.last.must_be_instance_of Hotel::Room
     end
   end
+  describe 'find_available_rooms' do
+    before do
+      @admin = Hotel::User.new
+      @start_date = Date.new(2018,3,15)
+      @end_date = Date.new(2018,3,20)
+    end
+    it 'returns a list of rooms that are available for a range of dates' do
+      available_rooms = @admin.find_available_rooms(@start_date, @end_date)
+
+      available_rooms.must_be_kind_of Array
+      available_rooms.length.must_equal 20
+      available_rooms[0].must_be_instance_of Hotel::Room
+      available_rooms[8].must_be_instance_of Hotel::Room
+      available_rooms[-1].must_be_instance_of Hotel::Room
+    end
+    it 'excludes rooms that arent available for given dates' do
+      reservation1 = @admin.reserve_room(1, "Jane Doe", Date.new(2018,3,12), Date.new(2018,3,18))
+      reservation2 = @admin.reserve_room(2, "John Smith", Date.new(2018,3,18), Date.new(2018,3,25))
+      reservation3 = @admin.reserve_room(3, "Sam Sole", Date.new(2018,3,1), Date.new(2018,3,30))
+      reservation4 = @admin.reserve_room(4, "Alex Whitt", Date.new(2018,3,12), Date.new(2018,3,16))
+
+      available_rooms = @admin.find_available_rooms(@start_date, @end_date)
+
+      available_rooms.wont_include reservation1.room
+      available_rooms.wont_include reservation2.room
+      available_rooms.wont_include reservation3.room
+      available_rooms.wont_include reservation4.room
+    end
+    it 'includes rooms that have same end_date as new start date' do
+
+    end
+  end
   describe 'reserve_room' do
     before do
       @admin = Hotel::User.new
@@ -38,6 +70,14 @@ describe 'User' do
       @new_reservation.must_be_instance_of Hotel::Reservation
     end
   end
+  describe 'find_reservation_cost' do
+    it 'returns cost for reservation with reservation id' do
+      admin = Hotel::User.new
+      admin.reserve_room(5, "Kaeli Poe", Date.new(2018, 3, 20), Date.new(2018, 3, 25))
+
+      admin.find_reservation_cost(1).must_equal 1000
+    end
+  end
   describe 'find_reservations_for_given_date' do
     before do
       @admin = Hotel::User.new
@@ -50,14 +90,6 @@ describe 'User' do
 
       reservations_of_day.must_be_kind_of Array
       reservations_of_day.must_equal [@new_reservation, @new_reservation_2]
-    end
-  end
-  describe 'find_reservation_cost' do
-    it 'returns cost for reservation with reservation id' do
-      admin = Hotel::User.new
-      admin.reserve_room(5, "Kaeli Poe", Date.new(2018, 3, 20), Date.new(2018, 3, 25))
-
-      admin.find_reservation_cost(1).must_equal 1000
     end
   end
 
