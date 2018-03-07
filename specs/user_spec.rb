@@ -44,7 +44,13 @@ describe 'User' do
       available_rooms.wont_include reservation4.room
     end
     it 'includes rooms that have same end_date as new start date' do
+      reservation1 = @admin.reserve_room(3, "Sam Sole", Date.new(2018,3,1), Date.new(2018,3,30))
+      reservation2 = @admin.reserve_room(4, "Alex Whitt", Date.new(2018,3,12), Date.new(2018,3,15))
 
+      available_rooms = @admin.find_available_rooms(@start_date, @end_date)
+
+      available_rooms.wont_include reservation1.room
+      available_rooms.must_include reservation2.room
     end
   end
   describe 'reserve_room' do
@@ -68,6 +74,12 @@ describe 'User' do
     end
     it 'returns an instance of a reservation' do
       @new_reservation.must_be_instance_of Hotel::Reservation
+    end
+    it 'allows reservation of room with same start_date as previous reservations end_date' do
+      next_reservation = @admin.reserve_room(5, "Kaeli Smit", Date.new(2018, 3, 25), Date.new(2018, 3, 27))
+
+      next_reservation.must_be_instance_of Hotel::Reservation
+      next_reservation.date_range.must_equal (Date.new(2018, 3, 25)...Date.new(2018, 3, 27))
     end
   end
   describe 'find_reservation_cost' do
