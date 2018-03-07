@@ -16,7 +16,9 @@ module Hotel
       date_range = (start_date...end_date)
       available_rooms = []
       @rooms.each do |room|
-        next if room.calendar.any?(date_range)
+        next if room.calendar.any?(date_range) # this apparently works
+        # next if room.calendar.any?{ |date| date_range.include?(date) }
+        # ^ alternative solution that actually make more sense to me ^
         available_rooms << room
       end
       available_rooms

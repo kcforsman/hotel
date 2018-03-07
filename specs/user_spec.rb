@@ -34,7 +34,8 @@ describe 'User' do
       reservation1 = @admin.reserve_room(1, "Jane Doe", Date.new(2018,3,12), Date.new(2018,3,18))
       reservation2 = @admin.reserve_room(2, "John Smith", Date.new(2018,3,18), Date.new(2018,3,25))
       reservation3 = @admin.reserve_room(3, "Sam Sole", Date.new(2018,3,1), Date.new(2018,3,30))
-      reservation4 = @admin.reserve_room(4, "Alex Whitt", Date.new(2018,3,12), Date.new(2018,3,16))
+      reservation4 = @admin.reserve_room(4, "Alex Whitt", Date.new(2018,3,15), Date.new(2018,3,20))
+      reservation5 = @admin.reserve_room(5, "Kael Dear", Date.new(2018,3,16), Date.new(2018,3,18))
 
       available_rooms = @admin.find_available_rooms(@start_date, @end_date)
 
@@ -42,6 +43,7 @@ describe 'User' do
       available_rooms.wont_include reservation2.room
       available_rooms.wont_include reservation3.room
       available_rooms.wont_include reservation4.room
+      available_rooms.wont_include reservation5.room
     end
     it 'includes rooms that have same end_date as new start date' do
       reservation1 = @admin.reserve_room(3, "Sam Sole", Date.new(2018,3,1), Date.new(2018,3,30))
