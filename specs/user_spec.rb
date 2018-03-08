@@ -108,5 +108,33 @@ describe 'User' do
       reservations_of_day.must_equal [@new_reservation, @new_reservation_2]
     end
   end
-
+  describe 'create_room_block' do
+    before do
+    end
+    it 'creates a block that is stored in reservations' do
+    end
+    it 'doesnt allow more than 5 rooms per block' do
+    end
+    it 'only includes rooms that are available when block is made' do
+    end
+    it 'deals with if there are not enough rooms for the block' do
+      # edge case to think about
+    end
+    it 'doesnt allow general public to reserve a room from the block' do
+    end
+    it 'doesnt allow rooms to be used for another block' do
+    end
+  end
+  describe 'reserve_room_from_block' do
+    it 'allows reservation of a room within a block' do
+    end
+    it 'doesnt allow reservation within block to have any other date range than blocks' do
+    end
+  end
+  describe 'check_block_room_availibility' do
+    it 'returns an array of rooms' do
+      available_rooms_in_block.must_be_kind_of Array
+    end
+    # rest of this method is tested in the block_spec
+  end
 end
