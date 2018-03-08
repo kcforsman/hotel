@@ -32,7 +32,7 @@ module Hotel
       room = @rooms[room_num - 1]
       id = @reservations.length + 1
       new_reservation = Reservation.new(id, room, guest, date_range)
-      add_to_calendar(new_reservation)
+      add_to_calendar(new_reservation, date_range)
       room.add_to_calendar(date_range)
       @reservations << new_reservation
       new_reservation
@@ -56,8 +56,7 @@ module Hotel
       end
     end
 
-    def add_to_calendar(reservation)
-      date_range = reservation.find_all_dates
+    def add_to_calendar(reservation, date_range)
       date_range.each do |date|
          @calendar[date] ? @calendar[date].push(reservation) : @calendar[date] = [reservation]
        end
@@ -73,6 +72,20 @@ module Hotel
     end
     def find_reservation(reservation_id)
       @reservations.find { |reservation| reservation.id == reservation_id }
+    end
+
+    def create_room_block(rooms, party, start_date, end_date, discount)
+      raise StandardError.new('too many rooms for a block') if rooms.length > 5
+      raise StandardError.new('too few rooms for a block') if rooms.length < 2
+      valid_dates(start_date, end_date)
+      date_range = (start_date...end_date)
+      rooms.each { |room| check_room_availibility(room.room_num, date_range) }
+      id = @reservations.length + 1
+      new_block = Block.new(id, rooms, party, date_range, discount)
+      add_to_calendar(new_block, date_range)
+      rooms.each { |room| room.add_to_calendar(date_range) }
+      @reservations << new_block
+      new_block
     end
   end
 end

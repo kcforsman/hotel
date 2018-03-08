@@ -110,25 +110,54 @@ describe 'User' do
   end
   describe 'create_room_block' do
     before do
+      @admin = Hotel::User.new
+      @start_date = Date.new(2018,3,15)
+      @end_date = Date.new(2018,3,20)
+      @available_rooms = @admin.find_available_rooms(@start_date, @end_date)
     end
     it 'creates a block that is stored in reservations' do
+      rooms = @available_rooms.first(5)
+      block = @admin.create_room_block(rooms, "Comicon", @start_date, @end_date, 0.2)
+
+      block.must_be_instance_of Hotel::Block
+      @admin.find_reservations_for_given_date(@start_date).must_include block
     end
     it 'doesnt allow more than 5 rooms per block' do
+      rooms = @available_rooms.first(6)
+      proc { @admin.create_room_block(rooms, "Comicon", @start_date, @end_date, 0.2)}.must_raise StandardError
     end
-    it 'only includes rooms that are available when block is made' do
+    it 'doesnt allow less than 2 rooms per block' do
+      rooms = @available_rooms.first
+
+      proc { @admin.create_room_block(rooms, "Comicon", @start_date, @end_date, 0.2)}.must_raise StandardError
+    end
+    it 'doesnt allow rooms that are unavailable when block is made' do
+      20.times { |x| @admin.reserve_room(x+1, 'Guest #{x+1}', @start_date, @end_date) }
+      rooms = @available_rooms.first(5)
+
+      proc {@admin.create_room_block(rooms, "Comicon", @start_date, @end_date, 0.2)}.must_raise StandardError
     end
     it 'deals with if there are not enough rooms for the block' do
       # edge case to think about
+      17.times { |x| @admin.reserve_room(x+1, 'Guest #{x+1}', @start_date, @end_date) }
+      rooms = @available_rooms.last(5)
+
+      proc {@admin.create_room_block(rooms, "Comicon", @start_date, @end_date, 0.2)}.must_raise StandardError
     end
-    it 'doesnt allow general public to reserve a room from the block' do
-    end
-    it 'doesnt allow rooms to be used for another block' do
+    it 'doesnt allow rooms to be used for another block or single reservation' do
+      rooms = @available_rooms.first(5)
+      @admin.create_room_block(rooms, "Comicon", @start_date, @end_date, 0.2)
+
+      proc {@admin.create_room_block(rooms, "Fanime", @start_date, @end_date, 0.2)}.must_raise StandardError
+      proc {@admin.reserve_room(rooms.first, "Random Author", @start_date, @end_date)}.must_raise StandardError
     end
   end
   describe 'reserve_room_from_block' do
     it 'allows reservation of a room within a block' do
     end
     it 'doesnt allow reservation within block to have any other date range than blocks' do
+    end
+    it 'doesnt allow general public to reserve a room from the block' do
     end
   end
   describe 'check_block_room_availibility' do
