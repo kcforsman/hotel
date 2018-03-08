@@ -70,8 +70,16 @@ describe 'Block class' do
     end
   end
   describe 'find_reservation_cost' do
+    before do
+      rooms = []
+      4.times {|x| rooms << Hotel::Room.new(x+1) }
+      date_range = (Date.new(2018,3,22)...Date.new(2018,3,26))
+      @block = Hotel::Block.new(1, rooms, "Fanime", date_range, 0.2)
+    end
     it 'returns discounted cost for the reservation' do
+      @block.reserve_room(1, "Meka Starbright")
 
+      @block.find_reservation_cost(1).must_equal 640
     end
   end
 end

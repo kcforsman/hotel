@@ -32,5 +32,9 @@ module Hotel
       @reservations << new_reservation
       new_reservation
     end
+
+    def find_reservation_cost(reservation_id)
+      ((1 - @discount) * super(reservation_id)).round(2)
+    end
   end
 end
