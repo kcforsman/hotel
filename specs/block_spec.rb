@@ -21,14 +21,24 @@ describe 'Block class' do
       @block.id.must_equal 1
     end
   end
-  describe 'check_room_availibility' do
+  describe 'find_available_rooms' do
+    before do
+      @rooms = []
+      4.times {|x| @rooms << Hotel::Room.new(x+1) }
+      date_range = (Date.new(2018,3,22)...Date.new(2018,3,26))
+      @block = Hotel::Block.new(1, @rooms, "Fanime", date_range, 0.2)
+    end
     it 'returns array of rooms available in block' do
+      available_rooms_in_block = @block.find_available_rooms
 
+      available_rooms_in_block.must_be_kind_of Array
+      available_rooms_in_block.must_equal @rooms
     end
-    it 'handles (throw exception or returns nil) no rooms available' do
-
+    xit 'handles (throw exception or returns nil) no rooms available' do
+      4.times { |x| @block.reserve_room(x+1, "Guest #{x+1}") }
+      proc { available_rooms_in_block = @block.find_available_rooms }.must_raise StandardError
     end
-    it 'exclude rooms that are already reserved' do
+    xit 'exclude rooms that are already reserved' do
 
     end
   end
