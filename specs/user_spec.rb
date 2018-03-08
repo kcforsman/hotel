@@ -30,6 +30,8 @@ describe 'User' do
       available_rooms[8].must_be_instance_of Hotel::Room
       available_rooms[-1].must_be_instance_of Hotel::Room
     end
+    it 'handles (throw exception or returns nil) if no rooms available' do
+    end
     it 'excludes rooms that arent available for given dates' do
       reservation1 = @admin.reserve_room(1, "Jane Doe", Date.new(2018,3,12), Date.new(2018,3,18))
       reservation2 = @admin.reserve_room(2, "John Smith", Date.new(2018,3,18), Date.new(2018,3,25))

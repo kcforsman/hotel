@@ -22,6 +22,7 @@ module Hotel
         available_rooms << room
       end
       available_rooms
+      # need to deal with no rooms available
     end
 
     def reserve_room(room_num, guest, start_date, end_date)
