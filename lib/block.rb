@@ -3,7 +3,7 @@ require 'pry'
 
 module Hotel
   class Block < User
-    attr_reader :id
+    attr_reader :id, :reservations
     def initialize(id, rooms, party, date_range, discount)
       @id = id
       @rooms = rooms
@@ -15,14 +15,22 @@ module Hotel
 
     def find_available_rooms
       available_rooms = []
+      return @rooms if @reservations.empty?
       @rooms.each do |room|
-        next if room.calendar.any?(@date_range) # this apparently works
-        # next if room.calendar.any?{ |date| @date_range.include?(date) }
-        # ^ alternative solution that actually make more sense to me ^
+        next if @reservations.any? { |reservation| reservation.room == room }
         available_rooms << room
       end
+      raise StandardError.new("no rooms available") if available_rooms.empty?
       available_rooms
-      # need to deal with no rooms available
+    end
+
+    def reserve_room(room_num, guest)
+      room = @rooms[room_num - 1]
+      raise StandardError.new("room not available") if !find_available_rooms.include?(room)
+      id = @reservations.length + 1
+      new_reservation = Reservation.new(id, room, guest, @date_range)
+      @reservations << new_reservation
+      new_reservation
     end
   end
 end
