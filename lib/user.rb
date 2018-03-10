@@ -91,5 +91,9 @@ module Hotel
     def reserve_room_from_block(block, room_num, guest)
       block.reserve_room(room_num, guest)
     end
+
+    def check_block_room_availibility(block)
+      block.find_available_rooms
+    end
   end
 end

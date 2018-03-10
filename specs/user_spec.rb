@@ -172,8 +172,23 @@ describe 'User' do
     end
   end
   describe 'check_block_room_availibility' do
+    before do
+      @admin = Hotel::User.new
+      @start_date = Date.new(2018,3,15)
+      @end_date = Date.new(2018,3,20)
+      @available_rooms = @admin.find_available_rooms(@start_date, @end_date)
+      @block = @admin.create_room_block(@available_rooms.first(5), "Comicon", @start_date, @end_date, 0.2)
+    end
     it 'returns an array of rooms' do
-      # available_rooms_in_block.must_be_kind_of Array
+      before_available_rooms_in_block = @admin.check_block_room_availibility(@block)
+      room_num = @available_rooms[0].room_num
+      reservation = @admin.reserve_room_from_block(@block, room_num, "Spiderman")
+      after_available_rooms_in_block = @admin.check_block_room_availibility(@block)
+
+      before_available_rooms_in_block.length.must_equal 5
+      before_available_rooms_in_block.must_include @available_rooms[0]
+      after_available_rooms_in_block.length.must_equal 4
+      after_available_rooms_in_block.wont_include @available_rooms[0]
     end
     # rest of this method is tested in the block_spec
   end
