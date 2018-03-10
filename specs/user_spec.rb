@@ -144,7 +144,7 @@ describe 'User' do
 
       proc {@admin.create_room_block(rooms, "Comicon", @start_date, @end_date, 0.2)}.must_raise StandardError
     end
-    it 'doesnt allow rooms to be used for another block or single reservation' do
+    it 'doesnt allow rooms to be used for another block or single reservation from general public' do
       rooms = @available_rooms.first(5)
       @admin.create_room_block(rooms, "Comicon", @start_date, @end_date, 0.2)
 
@@ -153,11 +153,22 @@ describe 'User' do
     end
   end
   describe 'reserve_room_from_block' do
-    it 'allows reservation of a room within a block' do
+    before do
+      @admin = Hotel::User.new
+      @start_date = Date.new(2018,3,15)
+      @end_date = Date.new(2018,3,20)
+      @available_rooms = @admin.find_available_rooms(@start_date, @end_date)
+      @block = @admin.create_room_block(@available_rooms.first(5), "Comicon", @start_date, @end_date, 0.2)
+    end
+    it 'returns reservation of a room within a block' do
+      room_num = @available_rooms[0].room_num
+      reservation = @admin.reserve_room_from_block(@block, room_num, "Spiderman")
+
+      reservation.must_be_instance_of Hotel::Reservation
+      reservation.room.must_equal @available_rooms[0]
     end
     it 'doesnt allow reservation within block to have any other date range than blocks' do
-    end
-    it 'doesnt allow general public to reserve a room from the block' do
+      # something I can't really test because method doesn't take a date_range from user
     end
   end
   describe 'check_block_room_availibility' do

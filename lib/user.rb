@@ -87,5 +87,9 @@ module Hotel
       @reservations << new_block
       new_block
     end
+
+    def reserve_room_from_block(block, room_num, guest)
+      block.reserve_room(room_num, guest)
+    end
   end
 end
