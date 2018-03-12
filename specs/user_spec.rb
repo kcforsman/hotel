@@ -4,7 +4,9 @@ require 'date'
 describe 'User' do
   describe 'initialization' do
     before do
-      @admin = Hotel::User.new
+      rooms = []
+      20.times {|x| rooms << Hotel::Room.new(x+1, 200) }
+      @admin = Hotel::User.new(rooms)
     end
     it 'can be initialized' do
       @admin.must_be_instance_of Hotel::User
@@ -17,7 +19,9 @@ describe 'User' do
   end
   describe 'find_available_rooms' do
     before do
-      @admin = Hotel::User.new
+      rooms = []
+      20.times {|x| rooms << Hotel::Room.new(x+1, 200) }
+      @admin = Hotel::User.new(rooms)
       @start_date = Date.new(2018,3,15)
       @end_date = Date.new(2018,3,20)
     end
@@ -59,7 +63,9 @@ describe 'User' do
   end
   describe 'reserve_room' do
     before do
-      @admin = Hotel::User.new
+      rooms = []
+      20.times {|x| rooms << Hotel::Room.new(x+1, 200) }
+      @admin = Hotel::User.new(rooms)
       @new_reservation = @admin.reserve_room(5, "Jade Poe", Date.new(2018, 3, 20), Date.new(2018, 3, 25))
     end
     it 'throws StandardError for invalidate dates' do
@@ -88,7 +94,9 @@ describe 'User' do
   end
   describe 'find_reservation_cost' do
     it 'returns cost for reservation with reservation id' do
-      admin = Hotel::User.new
+      rooms = []
+      20.times {|x| rooms << Hotel::Room.new(x+1, 200) }
+      admin = Hotel::User.new(rooms)
       admin.reserve_room(5, "Kaeli Poe", Date.new(2018, 3, 20), Date.new(2018, 3, 25))
 
       admin.find_reservation_cost(1).must_equal 1000
@@ -96,7 +104,9 @@ describe 'User' do
   end
   describe 'find_reservations_for_given_date' do
     before do
-      @admin = Hotel::User.new
+      rooms = []
+      20.times {|x| rooms << Hotel::Room.new(x+1, 200) }
+      @admin = Hotel::User.new(rooms)
       @new_reservation = @admin.reserve_room(5, "Jade Poe", Date.new(2018, 3, 20), Date.new(2018, 3, 25))
       @new_reservation_2 = @admin.reserve_room(8, "Kal Smith", Date.new(2018, 3, 20), Date.new(2018, 3, 25))
       @date = Date.new(2018, 3, 23)
@@ -110,7 +120,9 @@ describe 'User' do
   end
   describe 'create_room_block' do
     before do
-      @admin = Hotel::User.new
+      rooms = []
+      20.times {|x| rooms << Hotel::Room.new(x+1, 200) }
+      @admin = Hotel::User.new(rooms)
       @start_date = Date.new(2018,3,15)
       @end_date = Date.new(2018,3,20)
       @available_rooms = @admin.find_available_rooms(@start_date, @end_date)
@@ -154,7 +166,9 @@ describe 'User' do
   end
   describe 'reserve_room_from_block' do
     before do
-      @admin = Hotel::User.new
+      rooms = []
+      20.times {|x| rooms << Hotel::Room.new(x+1, 200) }
+      @admin = Hotel::User.new(rooms)
       @start_date = Date.new(2018,3,15)
       @end_date = Date.new(2018,3,20)
       @available_rooms = @admin.find_available_rooms(@start_date, @end_date)
@@ -173,7 +187,9 @@ describe 'User' do
   end
   describe 'check_block_room_availibility' do
     before do
-      @admin = Hotel::User.new
+      rooms = []
+      20.times {|x| rooms << Hotel::Room.new(x+1, 200) }
+      @admin = Hotel::User.new(rooms)
       @start_date = Date.new(2018,3,15)
       @end_date = Date.new(2018,3,20)
       @available_rooms = @admin.find_available_rooms(@start_date, @end_date)

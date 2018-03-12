@@ -4,7 +4,7 @@ require 'date'
 describe 'Reservation' do
   before do
     date_range = (Date.new(2018,3,18)...Date.new(2018,3,26))
-    room = Hotel::Room.new(4)
+    room = Hotel::Room.new(4, 200)
     @reservation = Hotel::Reservation.new(1, room, "Bob", date_range)
   end
   describe 'initialization' do
@@ -23,7 +23,7 @@ describe 'Reservation' do
   describe 'calculate_nights' do
     before do
       date_range = (Date.new(2018,3,18)...Date.new(2018,3,26))
-      room = Hotel::Room.new(4)
+      room = Hotel::Room.new(4, 200)
       @reservation = Hotel::Reservation.new(1, room, "Bob", date_range)
     end
     it 'returns the number of nights' do
@@ -36,7 +36,7 @@ describe 'Reservation' do
   describe 'find_all_dates' do
     it 'returns an array of all dates in reservation' do
       date_range = (Date.new(2018,3,20)...Date.new(2018,3,22))
-      room = Hotel::Room.new(4)
+      room = Hotel::Room.new(4, 200)
       reservation = Hotel::Reservation.new(1, room, "Kaeli", date_range)
       all_dates = reservation.find_all_dates
 
@@ -48,7 +48,7 @@ describe 'Reservation' do
   describe 'calculate_reservation_cost' do
     it 'returns the cost of the reservation' do
       date_range = (Date.new(2018,3,20)...Date.new(2018,3,25))
-      room = Hotel::Room.new(4)
+      room = Hotel::Room.new(4, 200)
       reservation = Hotel::Reservation.new(1, room, "Bob", date_range)
 
       reservation.calculate_reservation_cost.must_equal 1000

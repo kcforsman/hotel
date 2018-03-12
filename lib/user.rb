@@ -3,14 +3,15 @@ require 'pry'
 
 module Hotel
   TOTAL_ROOMS = 20
-  COST_PER_NIGHT = 200
   class User
     attr_reader :rooms
-    def initialize
-      @rooms = []
+    def initialize(rooms)
+      if rooms.size != TOTAL_ROOMS
+        raise StandardError.new("incorrect number of rooms")
+      end
+      @rooms = rooms
       @reservations = []
       @calendar = {}
-      TOTAL_ROOMS.times { | room_num | @rooms << Room.new(room_num + 1)}
     end
     def find_available_rooms(start_date, end_date)
       date_range = (start_date...end_date)

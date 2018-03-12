@@ -2,7 +2,7 @@ require 'date'
 require 'pry'
 
 module Hotel
-  class Block < User
+  class Block < Reservation
     attr_reader :id, :reservations
     def initialize(id, rooms, party, date_range, discount)
       @id = id
@@ -33,8 +33,13 @@ module Hotel
       new_reservation
     end
 
-    def find_reservation_cost(reservation_id)
-      ((1 - @discount) * super(reservation_id)).round(2)
+    def calculate_reservation_cost(reservation_id)
+      reservation = find_reservation(reservation_id)
+      ((1 - @discount) * reservation.calculate_reservation_cost).round(2)
+    end
+
+    def find_reservation(reservation_id)
+      @reservations.find { |reservation| reservation.id == reservation_id }
     end
   end
 end

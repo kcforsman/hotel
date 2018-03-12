@@ -6,7 +6,7 @@ describe 'Block class' do
   describe 'instantiation' do
     before do
       rooms = []
-      4.times {|x| rooms << Hotel::Room.new(x+1) }
+      4.times {|x| rooms << Hotel::Room.new(x+1, 200) }
       date_range = (Date.new(2018,3,22)...Date.new(2018,3,26))
       @block = Hotel::Block.new(1, rooms, "Fanime", date_range, 0.2)
     end
@@ -14,7 +14,7 @@ describe 'Block class' do
       @block.must_be_instance_of Hotel::Block
     end
     it 'inherits from User' do
-      @block.must_be_kind_of Hotel::User
+      @block.must_be_kind_of Hotel::Reservation
     end
     it 'has attributes: id, list of some rooms, reservations, party, date range, discount' do
       # may not need this test stub....
@@ -25,7 +25,7 @@ describe 'Block class' do
   describe 'find_available_rooms' do
     before do
       @rooms = []
-      4.times {|x| @rooms << Hotel::Room.new(x+1) }
+      4.times {|x| @rooms << Hotel::Room.new(x+1, 200) }
       date_range = (Date.new(2018,3,22)...Date.new(2018,3,26))
       @block = Hotel::Block.new(1, @rooms, "Fanime", date_range, 0.2)
     end
@@ -55,7 +55,7 @@ describe 'Block class' do
   describe 'reserve_room' do
     before do
       rooms = []
-      4.times {|x| rooms << Hotel::Room.new(x+1) }
+      4.times {|x| rooms << Hotel::Room.new(x+1, 200) }
       date_range = (Date.new(2018,3,22)...Date.new(2018,3,26))
       @block = Hotel::Block.new(1, rooms, "Fanime", date_range, 0.2)
     end
@@ -69,17 +69,17 @@ describe 'Block class' do
       proc { @block.reserve_room(2, "Jade Poe")}.must_raise StandardError
     end
   end
-  describe 'find_reservation_cost' do
+  describe 'calculate_reservation_cost' do
     before do
       rooms = []
-      4.times {|x| rooms << Hotel::Room.new(x+1) }
+      4.times {|x| rooms << Hotel::Room.new(x+1, 200) }
       date_range = (Date.new(2018,3,22)...Date.new(2018,3,26))
       @block = Hotel::Block.new(1, rooms, "Fanime", date_range, 0.2)
     end
     it 'returns discounted cost for the reservation' do
       @block.reserve_room(1, "Meka Starbright")
 
-      @block.find_reservation_cost(1).must_equal 640
+      @block.calculate_reservation_cost(1).must_equal 640
     end
   end
 end
