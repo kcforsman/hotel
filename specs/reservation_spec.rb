@@ -5,7 +5,7 @@ describe 'Reservation' do
   before do
     date_range = (Date.new(2018,3,18)...Date.new(2018,3,26))
     room = Hotel::Room.new(4, 200)
-    @reservation = Hotel::Reservation.new(1, room, "Bob", date_range)
+    @reservation = Hotel::Reservation.new({id: 1, room: room, guest: "Bob", date_range: date_range})
   end
   describe 'initialization' do
     it 'can be initialized' do
@@ -15,8 +15,6 @@ describe 'Reservation' do
       @reservation.id.must_equal 1
       @reservation.id.must_be_kind_of Integer
       @reservation.room.must_be_instance_of Hotel::Room
-      @reservation.guest.must_equal "Bob"
-      @reservation.guest.must_be_kind_of String
       @reservation.date_range.must_be_kind_of Range
     end
   end
@@ -24,7 +22,7 @@ describe 'Reservation' do
     before do
       date_range = (Date.new(2018,3,18)...Date.new(2018,3,26))
       room = Hotel::Room.new(4, 200)
-      @reservation = Hotel::Reservation.new(1, room, "Bob", date_range)
+      @reservation = Hotel::Reservation.new({id: 1, room: room, guest: "Bob", date_range: date_range})
     end
     it 'returns the number of nights' do
       nights = @reservation.calculate_nights
@@ -37,7 +35,7 @@ describe 'Reservation' do
     it 'returns an array of all dates in reservation' do
       date_range = (Date.new(2018,3,20)...Date.new(2018,3,22))
       room = Hotel::Room.new(4, 200)
-      reservation = Hotel::Reservation.new(1, room, "Kaeli", date_range)
+      reservation = Hotel::Reservation.new({id: 1, room: room, guest: "Kaeli", date_range: date_range})
       all_dates = reservation.find_all_dates
 
       all_dates.must_be_kind_of Array
@@ -49,7 +47,7 @@ describe 'Reservation' do
     it 'returns the cost of the reservation' do
       date_range = (Date.new(2018,3,20)...Date.new(2018,3,25))
       room = Hotel::Room.new(4, 200)
-      reservation = Hotel::Reservation.new(1, room, "Bob", date_range)
+      reservation = Hotel::Reservation.new({id: 1, room: room, guest: "Bob", date_range: date_range})
 
       reservation.calculate_reservation_cost.must_equal 1000
     end

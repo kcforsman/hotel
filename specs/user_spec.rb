@@ -97,9 +97,9 @@ describe 'User' do
       rooms = []
       20.times {|x| rooms << Hotel::Room.new(x+1, 200) }
       admin = Hotel::User.new(rooms)
-      admin.reserve_room(5, "Kaeli Poe", Date.new(2018, 3, 20), Date.new(2018, 3, 25))
+      reservation = admin.reserve_room(5, "Kaeli Poe", Date.new(2018, 3, 20), Date.new(2018, 3, 25))
 
-      admin.find_reservation_cost(1).must_equal 1000
+      admin.find_reservation_cost(reservation.id).must_equal 1000
     end
   end
   describe 'find_reservations_for_given_date' do
@@ -180,9 +180,6 @@ describe 'User' do
 
       reservation.must_be_instance_of Hotel::Reservation
       reservation.room.must_equal @available_rooms[0]
-    end
-    it 'doesnt allow reservation within block to have any other date range than blocks' do
-      # something I can't really test because method doesn't take a date_range from user
     end
   end
   describe 'check_block_room_availibility' do

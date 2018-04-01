@@ -4,6 +4,7 @@ require 'pry'
 module Hotel
   TOTAL_ROOMS = 20
   class User
+    @@id = 1
     attr_reader :rooms
     def initialize(rooms)
       if rooms.size != TOTAL_ROOMS
@@ -32,7 +33,8 @@ module Hotel
       check_room_availibility(room_num, date_range)
       room = @rooms[room_num - 1]
       id = @reservations.length + 1
-      new_reservation = Reservation.new(id, room, guest, date_range)
+      new_reservation = Reservation.new({id: @@id, room: room, guest: guest, date_range: date_range})
+      @@id += 1
       add_to_calendar(new_reservation, date_range)
       room.add_to_calendar(date_range)
       @reservations << new_reservation
@@ -82,7 +84,8 @@ module Hotel
       date_range = (start_date...end_date)
       rooms.each { |room| check_room_availibility(room.room_num, date_range) }
       id = @reservations.length + 1
-      new_block = Block.new(id, rooms, party, date_range, discount)
+      new_block = Block.new({id: @@id, rooms: rooms, party: party, date_range: date_range, discount: discount})
+      @@id += 1
       add_to_calendar(new_block, date_range)
       rooms.each { |room| room.add_to_calendar(date_range) }
       @reservations << new_block

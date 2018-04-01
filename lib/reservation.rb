@@ -2,12 +2,12 @@ require 'date'
 
 module Hotel
   class Reservation
-    attr_reader :id, :room, :guest, :date_range
-    def initialize id, room, guest, date_range
-      @id = id
-      @room = room
-      @guest = guest
-      @date_range = date_range
+    attr_reader :id, :room, :date_range
+    def initialize reservation_args
+      @id = reservation_args[:id]
+      @room = reservation_args[:room]
+      @guest = reservation_args[:guest]
+      @date_range = reservation_args[:date_range]
     end
 
     def calculate_nights

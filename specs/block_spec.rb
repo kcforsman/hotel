@@ -8,7 +8,7 @@ describe 'Block class' do
       rooms = []
       4.times {|x| rooms << Hotel::Room.new(x+1, 200) }
       date_range = (Date.new(2018,3,22)...Date.new(2018,3,26))
-      @block = Hotel::Block.new(1, rooms, "Fanime", date_range, 0.2)
+      @block = Hotel::Block.new({id: 1, rooms: rooms, party: "Fanime", date_range: date_range, discount: 0.2})
     end
     it 'can be initialized' do
       @block.must_be_instance_of Hotel::Block
@@ -27,7 +27,7 @@ describe 'Block class' do
       @rooms = []
       4.times {|x| @rooms << Hotel::Room.new(x+1, 200) }
       date_range = (Date.new(2018,3,22)...Date.new(2018,3,26))
-      @block = Hotel::Block.new(1, @rooms, "Fanime", date_range, 0.2)
+      @block = Hotel::Block.new({id: 1, rooms: @rooms, party: "Fanime", date_range: date_range, discount: 0.2})
     end
     it 'returns array of rooms available in block' do
       available_rooms_in_block = @block.find_available_rooms
@@ -57,7 +57,7 @@ describe 'Block class' do
       rooms = []
       4.times {|x| rooms << Hotel::Room.new(x+1, 200) }
       date_range = (Date.new(2018,3,22)...Date.new(2018,3,26))
-      @block = Hotel::Block.new(1, rooms, "Fanime", date_range, 0.2)
+      @block = Hotel::Block.new({id: 1, rooms: rooms, party: "Fanime", date_range: date_range, discount: 0.2})
     end
     it 'returns a reservation for an available room' do
       reservation = @block.reserve_room(1, "Fan 1")
@@ -74,12 +74,12 @@ describe 'Block class' do
       rooms = []
       4.times {|x| rooms << Hotel::Room.new(x+1, 200) }
       date_range = (Date.new(2018,3,22)...Date.new(2018,3,26))
-      @block = Hotel::Block.new(1, rooms, "Fanime", date_range, 0.2)
+      @block = Hotel::Block.new({id: 1, rooms: rooms, party: "Fanime", date_range: date_range, discount: 0.2})
     end
     it 'returns discounted cost for the reservation' do
-      @block.reserve_room(1, "Meka Starbright")
+      reservation = @block.reserve_room(1, "Meka Starbright")
 
-      @block.calculate_reservation_cost(1).must_equal 640
+      @block.calculate_reservation_cost(reservation.id).must_equal 640
     end
   end
 end

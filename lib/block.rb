@@ -3,13 +3,13 @@ require 'pry'
 
 module Hotel
   class Block < Reservation
+    @@id = 1
     attr_reader :id, :reservations
-    def initialize(id, rooms, party, date_range, discount)
-      @id = id
-      @rooms = rooms
-      @party = party
-      @date_range = date_range
-      @discount = discount
+    def initialize block_args
+      super(block_args)
+      @party = block_args[:party]
+      @rooms = block_args[:rooms]
+      @discount = block_args[:discount]
       @reservations = []
     end
 
@@ -27,8 +27,8 @@ module Hotel
     def reserve_room(room_num, guest)
       room = @rooms[room_num - 1]
       raise StandardError.new("room not available") if !find_available_rooms.include?(room)
-      id = @reservations.length + 1
-      new_reservation = Reservation.new(id, room, guest, @date_range)
+      new_reservation = Reservation.new({id: @@id, room: room, guest: guest, date_range: @date_range})
+      @@id += 1
       @reservations << new_reservation
       new_reservation
     end
