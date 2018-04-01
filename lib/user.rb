@@ -18,10 +18,7 @@ module Hotel
       date_range = (start_date...end_date)
       available_rooms = []
       @rooms.each do |room|
-        next if room.calendar.any?(date_range) # this apparently works
-        # next if room.calendar.any?{ |date| date_range.include?(date) }
-        # ^ alternative solution that actually make more sense to me ^
-        available_rooms << room
+        available_rooms << room if room.is_available(date_range)
       end
       available_rooms
       # need to deal with no rooms available
@@ -52,9 +49,9 @@ module Hotel
     end
 
     def check_room_availibility(room_num, date_range)
-      calendar = @rooms[room_num - 1].calendar
-      return true if calendar.empty?
-      calendar.each do |date|
+      calendar = @rooms[room_num - 1].is_available(date_range)
+      return true if calendar
+      if !calendar
         raise StandardError.new("room already reserved") if date_range.include?(date)
       end
     end
