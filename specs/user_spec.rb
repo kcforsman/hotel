@@ -86,10 +86,7 @@ describe 'User' do
       @new_reservation.must_be_instance_of Hotel::Reservation
     end
     it 'allows reservation of room with same start_date as previous reservations end_date' do
-      next_reservation = @admin.reserve_room(5, "Kaeli Smit", Date.new(2018, 3, 25), Date.new(2018, 3, 27))
-
-      next_reservation.must_be_instance_of Hotel::Reservation
-      next_reservation.date_range.must_equal (Date.new(2018, 3, 25)...Date.new(2018, 3, 27))
+      proc { @admin.reserve_room(5, "Kaeli Smit", Date.new(2018, 3, 25), Date.new(2018, 3, 27)) }.must_be_silent
     end
   end
   describe 'find_reservation_cost' do

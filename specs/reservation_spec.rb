@@ -15,7 +15,6 @@ describe 'Reservation' do
       @reservation.id.must_equal 1
       @reservation.id.must_be_kind_of Integer
       @reservation.room.must_be_instance_of Hotel::Room
-      @reservation.date_range.must_be_kind_of Range
     end
   end
   describe 'calculate_nights' do
