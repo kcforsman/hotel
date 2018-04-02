@@ -16,6 +16,16 @@ describe 'User' do
       @admin.rooms[0].must_be_instance_of Hotel::Room
       @admin.rooms.last.must_be_instance_of Hotel::Room
     end
+
+    it 'wont allow User to initialize with different number of rooms from TOTAL_ROOMS' do
+      rooms_1 = []
+      rooms_2 = []
+      19.times {|x| rooms_1 << Hotel::Room.new(x+1, 200) }
+      21.times {|x| rooms_2 << Hotel::Room.new(x+1, 200) }
+
+      proc { Hotel::User.new(rooms_1) }.must_raise StandardError
+      proc { Hotel::User.new(rooms_2) }.must_raise StandardError
+    end
   end
   describe 'find_available_rooms' do
     before do

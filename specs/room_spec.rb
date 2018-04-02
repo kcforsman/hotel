@@ -1,7 +1,7 @@
 require_relative 'spec_helper'
 require 'date'
 
-xdescribe 'Room class' do
+describe 'Room class' do
   describe 'initialize' do
     it 'can be initialized' do
       room_2 = Hotel::Room.new(2, 200)
