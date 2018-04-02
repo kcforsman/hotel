@@ -45,11 +45,11 @@ describe 'User' do
 
       available_rooms = @admin.find_available_rooms(@start_date, @end_date)
 
-      available_rooms.wont_include reservation1.room
-      available_rooms.wont_include reservation2.room
-      available_rooms.wont_include reservation3.room
-      available_rooms.wont_include reservation4.room
-      available_rooms.wont_include reservation5.room
+      available_rooms.wont_include @admin.rooms[0]
+      available_rooms.wont_include @admin.rooms[1]
+      available_rooms.wont_include @admin.rooms[2]
+      available_rooms.wont_include @admin.rooms[3]
+      available_rooms.wont_include @admin.rooms[4]
     end
     it 'includes rooms that have same end_date as new start date' do
       reservation1 = @admin.reserve_room(3, "Sam Sole", Date.new(2018,3,1), Date.new(2018,3,30))
@@ -57,8 +57,8 @@ describe 'User' do
 
       available_rooms = @admin.find_available_rooms(@start_date, @end_date)
 
-      available_rooms.wont_include reservation1.room
-      available_rooms.must_include reservation2.room
+      available_rooms.wont_include @admin.rooms[2]
+      available_rooms.must_include @admin.rooms[3]
     end
   end
   describe 'reserve_room' do
@@ -176,7 +176,6 @@ describe 'User' do
       reservation = @admin.reserve_room_from_block(@block, room_num, "Spiderman")
 
       reservation.must_be_instance_of Hotel::Reservation
-      reservation.room.must_equal @available_rooms[0]
     end
   end
   describe 'check_block_room_availibility' do

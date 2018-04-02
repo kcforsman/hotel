@@ -2,7 +2,7 @@ require 'date'
 
 module Hotel
   class Reservation
-    attr_reader :id, :room
+    attr_reader :id
     def initialize reservation_args
       @id = reservation_args[:id]
       @room = reservation_args[:room]

@@ -4,20 +4,21 @@ require 'pry'
 module Hotel
   class Block < Reservation
     @@id = 1
-    attr_reader :id, :reservations
+    attr_reader :id
     def initialize block_args
       super(block_args)
       @party = block_args[:party]
       @rooms = block_args[:rooms]
       @discount = block_args[:discount]
       @reservations = []
+      @reserved_rooms = []
     end
 
     def find_available_rooms
       available_rooms = []
-      return @rooms if @reservations.empty?
+      return @rooms if @reserved_rooms.empty?
       @rooms.each do |room|
-        next if @reservations.any? { |reservation| reservation.room == room }
+        next if @reserved_rooms.any? { |reserved_room| reserved_room == room }
         available_rooms << room
       end
       raise StandardError.new("no rooms available") if available_rooms.empty?
@@ -29,6 +30,7 @@ module Hotel
       raise StandardError.new("room not available") if !find_available_rooms.include?(room)
       new_reservation = Reservation.new({id: @@id, room: room, guest: guest, date_range: @date_range})
       @@id += 1
+      @reserved_rooms << room
       @reservations << new_reservation
       new_reservation
     end
