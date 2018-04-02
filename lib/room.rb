@@ -3,7 +3,7 @@ require 'pry'
 
 module Hotel
   class Room
-    attr_reader :room_num, :cost
+    attr_reader :room_num
     def initialize(room_num, cost)
       @room_num = room_num
       @cost = cost
@@ -17,6 +17,10 @@ module Hotel
     def is_available date_range
       return false if @calendar.any?(date_range)
       true
+    end
+
+    def calculate_cost nights
+      @cost * nights
     end
   end
 end

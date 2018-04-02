@@ -19,7 +19,7 @@ module Hotel
     end
 
     def calculate_reservation_cost
-      calculate_nights * @room.cost
+      @room.calculate_cost(calculate_nights)
     end
   end
 end
