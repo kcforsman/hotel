@@ -32,3 +32,6 @@
   - Also, Implementation B. It doesn't have to call on the instance variables of CartEntry or ShoppingCart to find the total price for the order.
 *****
 ### The Hotel Revision
+I had a few unnecessary helper methods, so want to change the code, so the classes only have access to the ids of the other classes. This means changing the code so Room doesn't respond to :calendar or :cost, Reservation doesn't respond to :room or :date_range, and Block doesn't respond to :reservations. This is better because if later I change all the information in a class, I can just change that method within the class and the other classes wont know what know any different as long as it is getting the information it needs.
+
+To revise Hotel, I changed the initialize arguments for Block and Reservation to take a hash instead of separate arguments. I changed the way the classes assign and track ids. Then, I worked on changing all the different classes approach to instance variables of other classes, so that except for ids and room_num, the other classes don't know too much about the others. (hopefully)
